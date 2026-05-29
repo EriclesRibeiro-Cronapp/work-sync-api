@@ -1,7 +1,10 @@
 package com.workflow.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -23,4 +26,8 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Task> tasks;
 }
