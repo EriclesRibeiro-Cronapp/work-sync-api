@@ -29,11 +29,4 @@ public class CustomUserDetailsService
                 .password(user.getPassword())
                 .build();
     }
-
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config
-    ) throws Exception {
-        return config.getAuthenticationManager();
-    }
 }

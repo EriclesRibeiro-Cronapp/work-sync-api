@@ -5,7 +5,6 @@ import com.workflow.api.dto.RegisterRequest;
 import com.workflow.api.entity.User;
 import com.workflow.api.repository.UserRepository;
 import com.workflow.api.security.JwtService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
