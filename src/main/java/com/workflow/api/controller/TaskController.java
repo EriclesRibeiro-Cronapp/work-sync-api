@@ -1,15 +1,15 @@
 package com.workflow.api.controller;
 
 import com.workflow.api.dto.CreateTaskRequest;
-import com.workflow.api.entity.Task;
+import com.workflow.api.dto.TaskResponse;
 import com.workflow.api.service.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
@@ -18,25 +18,26 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping
-    public ResponseEntity<List<Task>> getAll(
+    public ResponseEntity<List<TaskResponse>> getAll(
             Authentication authentication
     ) {
-        Optional<List<Task>> tasks = taskService.getTasksByUser(
+        List<TaskResponse> tasks = taskService.getTasksByUser(
                 authentication.getName()
         );
-        return ResponseEntity.ok(tasks.orElse(null));
+        return ResponseEntity.ok(tasks);
     }
 
     @PostMapping
-    public ResponseEntity<Task> create(
+    public ResponseEntity<TaskResponse> create(
             @RequestBody CreateTaskRequest request,
             Authentication authentication
             ) {
-        Task task = taskService.create(
+        TaskResponse task = taskService.create(
                 request,
                 authentication.getName()
         );
 
-        return ResponseEntity.ok(task);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(task);
     }
 }

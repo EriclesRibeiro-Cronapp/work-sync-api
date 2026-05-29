@@ -1,44 +1,45 @@
 package com.workflow.api.service;
 
 import com.workflow.api.dto.CreateTaskRequest;
+import com.workflow.api.dto.TaskResponse;
 import com.workflow.api.entity.Task;
 import com.workflow.api.entity.User;
+import com.workflow.api.mapper.TaskMapper;
 import com.workflow.api.repository.TaskRepository;
 import com.workflow.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class TaskService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final TaskMapper taskMapper;
 
-    public Optional<List<Task>> getTasksByUser(String userEmail) {
+    public List<TaskResponse> getTasksByUser(String userEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow();
 
         List<Task> tasks = taskRepository.findByUser(user);
-        return Optional.ofNullable(tasks);
+
+        return taskMapper.toResponseList(tasks);
     }
 
-    public Task create(
+    public TaskResponse create(
             CreateTaskRequest request,
             String userEmail
     ) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow();
 
-        Task newTask = Task.builder()
-                .title(request.title())
-                .description(request.description())
-                .completed(false)
-                .user(user)
-                .build();
+        Task newTask = taskMapper.toEntity(request);
+        newTask.setUser(user);
 
-        return taskRepository.save(newTask);
+        Task savedTask = taskRepository.save(newTask);
+
+        return taskMapper.toResponse(savedTask);
     }
 }
