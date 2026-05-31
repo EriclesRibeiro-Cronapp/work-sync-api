@@ -1,4 +1,4 @@
-package com.workflow.api.dto;
+package com.workflow.api.dto.auth;
 
 public record RegisterRequest(
         String name,

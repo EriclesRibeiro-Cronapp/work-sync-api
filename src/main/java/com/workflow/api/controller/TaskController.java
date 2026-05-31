@@ -1,7 +1,7 @@
 package com.workflow.api.controller;
 
-import com.workflow.api.dto.CreateTaskRequest;
-import com.workflow.api.dto.TaskResponse;
+import com.workflow.api.dto.task.CreateTaskRequest;
+import com.workflow.api.dto.task.TaskResponse;
 import com.workflow.api.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

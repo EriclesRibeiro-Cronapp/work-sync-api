@@ -1,7 +1,7 @@
 package com.workflow.api.service;
 
-import com.workflow.api.dto.CreateTaskRequest;
-import com.workflow.api.dto.TaskResponse;
+import com.workflow.api.dto.task.CreateTaskRequest;
+import com.workflow.api.dto.task.TaskResponse;
 import com.workflow.api.entity.Task;
 import com.workflow.api.entity.User;
 import com.workflow.api.mapper.TaskMapper;

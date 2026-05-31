@@ -1,9 +1,11 @@
 package com.workflow.api.controller;
 
-import com.workflow.api.dto.LoginRequest;
-import com.workflow.api.dto.RegisterRequest;
+import com.workflow.api.dto.auth.LoginRequest;
+import com.workflow.api.dto.auth.LoginResponse;
+import com.workflow.api.dto.auth.RegisterRequest;
 import com.workflow.api.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,21 +16,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    private final AuthenticationService service;
+    private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(
+    public ResponseEntity<Void> register(
             @RequestBody RegisterRequest request) {
-        service.register(request);
+        authenticationService.register(request);
 
-        return ResponseEntity.ok("Usuário cadastrado");
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(
+    public ResponseEntity<LoginResponse> login(
             @RequestBody LoginRequest request) {
-        String token = service.authenticate(request);
+        LoginResponse response =
+                authenticationService.authenticate(request);
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(response);
     }
 }

@@ -1,7 +1,7 @@
 package com.workflow.api.mapper;
 
-import com.workflow.api.dto.CreateTaskRequest;
-import com.workflow.api.dto.TaskResponse;
+import com.workflow.api.dto.task.CreateTaskRequest;
+import com.workflow.api.dto.task.TaskResponse;
 import com.workflow.api.entity.Task;
 import org.springframework.stereotype.Component;
 
