@@ -3,6 +3,7 @@ package com.workflow.api.controller;
 import com.workflow.api.dto.task.CreateTaskRequest;
 import com.workflow.api.dto.task.TaskResponse;
 import com.workflow.api.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<TaskResponse> create(
-            @RequestBody CreateTaskRequest request,
+            @Valid @RequestBody CreateTaskRequest request,
             Authentication authentication
             ) {
         TaskResponse task = taskService.create(

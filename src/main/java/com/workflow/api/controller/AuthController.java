@@ -4,6 +4,7 @@ import com.workflow.api.dto.auth.LoginRequest;
 import com.workflow.api.dto.auth.LoginResponse;
 import com.workflow.api.dto.auth.RegisterRequest;
 import com.workflow.api.service.AuthenticationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(
-            @RequestBody RegisterRequest request) {
+            @Valid @RequestBody RegisterRequest request) {
         authenticationService.register(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -28,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
-            @RequestBody LoginRequest request) {
+            @Valid @RequestBody LoginRequest request) {
         LoginResponse response =
                 authenticationService.authenticate(request);
 
