@@ -1,6 +1,6 @@
 package com.workflow.api.security;
 
-import com.workflow.api.dto.ExceptionResponse;
+import com.workflow.api.dto.common.ExceptionResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

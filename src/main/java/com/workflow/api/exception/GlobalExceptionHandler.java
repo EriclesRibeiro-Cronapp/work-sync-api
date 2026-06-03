@@ -1,6 +1,6 @@
 package com.workflow.api.exception;
 
-import com.workflow.api.dto.ExceptionResponse;
+import com.workflow.api.dto.common.ExceptionResponse;
 import com.workflow.api.exception.auth.EmailAlreadyExistsException;
 import com.workflow.api.exception.auth.InvalidCredentialsException;
 import com.workflow.api.exception.auth.UnauthorizedException;
@@ -47,6 +47,18 @@ public class GlobalExceptionHandler {
                 .body(new ExceptionResponse(
                         HttpStatus.UNAUTHORIZED.value(),
                         HttpStatus.UNAUTHORIZED.name(),
+                        ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handlerUsernameNotFound(
+            UsernameNotFoundException ex
+    ) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ExceptionResponse(
+                        HttpStatus.BAD_REQUEST.value(),
+                        HttpStatus.BAD_REQUEST.name(),
                         ex.getMessage()
                 ));
     }

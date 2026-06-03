@@ -1,4 +1,4 @@
-package com.workflow.api.dto;
+package com.workflow.api.dto.common;
 
 public record ExceptionResponse(
         int status,
