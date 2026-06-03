@@ -4,6 +4,7 @@ import com.workflow.api.dto.auth.LoginRequest;
 import com.workflow.api.dto.auth.LoginResponse;
 import com.workflow.api.dto.auth.RegisterRequest;
 import com.workflow.api.service.AuthenticationService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Auth")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
