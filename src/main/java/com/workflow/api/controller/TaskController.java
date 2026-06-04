@@ -30,17 +30,6 @@ import java.util.List;
 public class TaskController {
     private final TaskService taskService;
 
-//    @GetMapping
-//    @Operation(summary = "Lista todas as tarefas")
-//    public ResponseEntity<List<TaskResponse>> getAll(
-//            Authentication authentication
-//    ) {
-//        List<TaskResponse> tasks = taskService.getAllTasks(
-//                authentication.getName(),
-//        );
-//        return ResponseEntity.ok(tasks);
-//    }
-
     @GetMapping
     public ResponseEntity<PaginationResponse<TaskResponse>> getTasks(
             Authentication authentication,
@@ -70,4 +59,15 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(task);
     }
+
+    @GetMapping("/{taskId}")
+    @Operation(summary = "Obter tarefa pelo ID")
+    public ResponseEntity<TaskResponse> getTaskById(
+            @PathVariable Long taskId,
+            Authentication authentication
+    ) {
+        TaskResponse task = taskService.findById(authentication.getName(), taskId);
+        return ResponseEntity.ok(task);
+    }
+
 }

@@ -5,8 +5,8 @@ import com.workflow.api.dto.task.CreateTaskRequest;
 import com.workflow.api.dto.task.TaskResponse;
 import com.workflow.api.entity.Task;
 import com.workflow.api.entity.User;
-import com.workflow.api.exception.UsernameNotFoundException;
-import com.workflow.api.exception.auth.InvalidCredentialsException;
+import com.workflow.api.exception.common.TaskNotFoundException;
+import com.workflow.api.exception.common.UserNotFoundException;
 import com.workflow.api.mapper.PaginationMapper;
 import com.workflow.api.mapper.TaskMapper;
 import com.workflow.api.repository.TaskRepository;
@@ -16,9 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +31,7 @@ public class TaskService {
             int pageSize
     ) {
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(UsernameNotFoundException::new);
+                .orElseThrow(UserNotFoundException::new);
 
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Task> tasks = taskRepository.findAllByUser(user, pageable);
@@ -49,7 +46,7 @@ public class TaskService {
             String userEmail
     ) {
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow();
+                .orElseThrow(UserNotFoundException::new);
 
         Task newTask = taskMapper.toEntity(request);
         newTask.setUser(user);
@@ -57,5 +54,15 @@ public class TaskService {
         Task savedTask = taskRepository.save(newTask);
 
         return taskMapper.toResponse(savedTask);
+    }
+
+    public TaskResponse findById(String email, Long id) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(UserNotFoundException::new);
+
+        Task task = taskRepository.findByUserAndId(user, id)
+                .orElseThrow(TaskNotFoundException::new);
+
+        return taskMapper.toResponse(task);
     }
 }
