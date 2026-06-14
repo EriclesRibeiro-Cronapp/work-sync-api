@@ -3,6 +3,7 @@ package com.workflow.api.controller;
 import com.workflow.api.dto.common.PaginationResponse;
 import com.workflow.api.dto.task.CreateTaskRequest;
 import com.workflow.api.dto.task.TaskResponse;
+import com.workflow.api.dto.task.UpdateTaskRequest;
 import com.workflow.api.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -23,7 +24,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping
-    public ResponseEntity<PaginationResponse<TaskResponse>> getTasks(
+    public ResponseEntity<PaginationResponse<TaskResponse>> getAll(
             Authentication authentication,
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize
@@ -52,14 +53,30 @@ public class TaskController {
                 .body(task);
     }
 
-    @GetMapping("/{taskId}")
+    @GetMapping("/{id}")
     @Operation(summary = "Obter tarefa pelo ID")
-    public ResponseEntity<TaskResponse> getTaskById(
-            @PathVariable Long taskId,
+    public ResponseEntity<TaskResponse> getById(
+            @PathVariable Long id,
             Authentication authentication
     ) {
-        TaskResponse task = taskService.findById(authentication.getName(), taskId);
+        TaskResponse task = taskService.findById(authentication.getName(), id);
         return ResponseEntity.ok(task);
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Editar tarefa")
+    public ResponseEntity<TaskResponse> update(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateTaskRequest request,
+            Authentication authentication
+            ) {
+        TaskResponse response = taskService.update(
+                id,
+                authentication.getName(),
+                request
+        );
+
+        return ResponseEntity.ok(response);
     }
 
 }

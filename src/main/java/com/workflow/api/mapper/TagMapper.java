@@ -11,6 +11,7 @@ import java.util.List;
 public class TagMapper {
     public TagResponse toResponse(Tag tag) {
         return new TagResponse(
+                tag.getId(),
                 tag.getName(),
                 tag.getTasks()
         );
