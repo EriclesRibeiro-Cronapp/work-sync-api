@@ -1,7 +1,16 @@
 package com.workflow.api.entity;
 
+import com.workflow.api.enums.Priority;
+import com.workflow.api.enums.TaskStatus;
+import com.workflow.api.enums.TaskType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "tasks")
@@ -13,16 +22,47 @@ import lombok.*;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;
 
     private String description;
 
-    private Boolean completed;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private LocalDate dueDate;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TaskType type;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "created_by",
+            nullable = false
+    )
+    private User createdBy;
+
+    @ManyToMany
+    @JoinTable(
+            name = "task_tags",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags;
 }

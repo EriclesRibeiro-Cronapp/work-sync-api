@@ -3,6 +3,7 @@ package com.workflow.api.mapper;
 import com.workflow.api.dto.task.CreateTaskRequest;
 import com.workflow.api.dto.task.TaskResponse;
 import com.workflow.api.entity.Task;
+import com.workflow.api.enums.TaskStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,7 +14,12 @@ public class TaskMapper {
         return new TaskResponse(
                 task.getTitle(),
                 task.getDescription(),
-                task.getCompleted()
+                task.getStatus(),
+                task.getPriority(),
+                task.getType(),
+                task.getCreatedAt(),
+                task.getUpdatedAt(),
+                task.getTags()
         );
     }
 
@@ -21,7 +27,9 @@ public class TaskMapper {
         return Task.builder()
                 .description(request.description())
                 .title(request.title())
-                .completed(false)
+                .status(TaskStatus.PENDING)
+                .priority(request.priority())
+                .type(request.type())
                 .build();
     }
 

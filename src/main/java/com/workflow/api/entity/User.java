@@ -28,6 +28,10 @@ public class User {
     private String password;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "createdBy")
     private List<Task> tasks;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "createdBy")
+    private List<Tag> tags;
 }

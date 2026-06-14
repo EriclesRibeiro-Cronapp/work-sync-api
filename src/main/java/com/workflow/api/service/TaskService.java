@@ -34,7 +34,7 @@ public class TaskService {
                 .orElseThrow(UserNotFoundException::new);
 
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<Task> tasks = taskRepository.findAllByUser(user, pageable);
+        Page<Task> tasks = taskRepository.findAllByCreatedBy(user, pageable);
 
         return paginationMapper.toResponse(
                 tasks.map(taskMapper::toResponse)
@@ -49,7 +49,7 @@ public class TaskService {
                 .orElseThrow(UserNotFoundException::new);
 
         Task newTask = taskMapper.toEntity(request);
-        newTask.setUser(user);
+        newTask.setCreatedBy(user);
 
         Task savedTask = taskRepository.save(newTask);
 
@@ -60,7 +60,7 @@ public class TaskService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(UserNotFoundException::new);
 
-        Task task = taskRepository.findByUserAndId(user, id)
+        Task task = taskRepository.findByCreatedByAndId(user, id)
                 .orElseThrow(TaskNotFoundException::new);
 
         return taskMapper.toResponse(task);
