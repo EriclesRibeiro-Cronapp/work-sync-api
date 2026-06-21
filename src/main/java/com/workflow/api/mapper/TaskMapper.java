@@ -4,14 +4,21 @@ import com.workflow.api.dto.task.CreateTaskRequest;
 import com.workflow.api.dto.task.TaskResponse;
 import com.workflow.api.entity.Task;
 import com.workflow.api.enums.TaskStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class TaskMapper {
+    private final TagMapper tagMapper;
+
     public TaskResponse toResponse(Task task) {
         return new TaskResponse(
+                task.getId(),
                 task.getTitle(),
                 task.getDescription(),
                 task.getStatus(),
@@ -19,7 +26,7 @@ public class TaskMapper {
                 task.getType(),
                 task.getCreatedAt(),
                 task.getUpdatedAt(),
-                task.getTags()
+                tagMapper.toResponseSet(task.getTags())
         );
     }
 
@@ -34,8 +41,12 @@ public class TaskMapper {
     }
 
     public List<TaskResponse> toResponseList(List<Task> tasks) {
+        if (tasks==null || tasks.isEmpty()) {
+            return new ArrayList<>();
+        }
+
         return tasks.stream()
                 .map(this::toResponse)
-                .toList();
+                .collect(Collectors.toList());
     }
 }

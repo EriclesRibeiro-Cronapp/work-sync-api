@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "tags")
@@ -27,5 +27,5 @@ public class Tag {
 
     @ManyToMany(mappedBy = "tags")
     @JsonIgnore
-    private Set<Task> tasks;
+    private List<Task> tasks;
 }

@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
-    List<Tag> findByCreatedBy(User createdBy);
+    Set<Tag> findByCreatedBy(User createdBy);
     Optional<Tag> findByCreatedByAndId(User createdBy, Long id);
     Optional<Tag> findByCreatedByAndName(User createdBy, String name);
     boolean existsByCreatedByAndNameAndIdNot(

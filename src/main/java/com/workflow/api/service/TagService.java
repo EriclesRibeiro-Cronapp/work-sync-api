@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -69,12 +70,12 @@ public class TagService {
         return tagMapper.toResponse(savedTag);
     }
 
-    public List<TagResponse> findAll(String userEmail) {
+    public Set<TagResponse> findAll(String userEmail) {
         User user = getUserByEmail(userEmail);
 
-        List<Tag> tags = tagRepository.findByCreatedBy(user);
+        Set<Tag> tags = tagRepository.findByCreatedBy(user);
 
-        return tagMapper.toResponseList(tags);
+        return tagMapper.toResponseSet(tags);
     }
 
     public TagResponse findById(

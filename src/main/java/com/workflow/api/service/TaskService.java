@@ -102,6 +102,8 @@ public class TaskService {
             task.setTags(tags);
         }
 
+        Task savedTask = taskRepository.save(task);
+
         return taskMapper.toResponse(taskRepository.save(task));
     }
 }

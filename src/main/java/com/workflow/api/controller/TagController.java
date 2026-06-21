@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Tag(name = "Tags")
 @RestController
@@ -41,10 +42,10 @@ public class TagController {
 
     @GetMapping
     @Operation(summary = "Listar tags do usuário")
-    public ResponseEntity<List<TagResponse>> findAll(
+    public ResponseEntity<Set<TagResponse>> findAll(
             Authentication authentication
     ) {
-        List<TagResponse> response = tagService
+        Set<TagResponse> response = tagService
                 .findAll(authentication.getName());
 
         return ResponseEntity.ok(response);
