@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TaskMapper {
     private final TagMapper tagMapper;
+    private final UserMapper userMapper;
 
     public TaskResponse toResponse(Task task) {
         return new TaskResponse(
@@ -26,7 +27,8 @@ public class TaskMapper {
                 task.getType(),
                 task.getCreatedAt(),
                 task.getUpdatedAt(),
-                tagMapper.toResponseSet(task.getTags())
+                tagMapper.toResponseSet(task.getTags()),
+                userMapper.toSummaryResponse(task.getAssignedTo())
         );
     }
 

@@ -1,4 +1,4 @@
-package com.workflow.api.exception.common;
+package com.workflow.api.exception.tag;
 
 import com.workflow.api.exception.WorkFlowException;
 

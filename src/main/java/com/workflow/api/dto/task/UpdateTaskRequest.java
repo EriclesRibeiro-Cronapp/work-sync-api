@@ -15,6 +15,7 @@ public record UpdateTaskRequest(
         TaskStatus status,
         @NotNull(message = "O campo 'priority' é obrigatório")
         Priority priority,
+        Long assignedId,
         Set<Long> tagIds
 ) {
 }

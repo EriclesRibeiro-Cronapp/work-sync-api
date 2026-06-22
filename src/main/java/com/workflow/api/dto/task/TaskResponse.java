@@ -1,6 +1,7 @@
 package com.workflow.api.dto.task;
 
 import com.workflow.api.dto.tag.TagResponse;
+import com.workflow.api.dto.user.UserSummaryResponse;
 import com.workflow.api.enums.Priority;
 import com.workflow.api.enums.TaskStatus;
 import com.workflow.api.enums.TaskType;
@@ -17,6 +18,7 @@ public record TaskResponse(
         TaskType type,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        Set<TagResponse> tags
+        Set<TagResponse> tags,
+        UserSummaryResponse assignedUser
 ) {
 }

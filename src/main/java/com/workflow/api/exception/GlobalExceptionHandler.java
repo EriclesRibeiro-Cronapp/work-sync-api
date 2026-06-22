@@ -4,10 +4,12 @@ import com.workflow.api.dto.common.ExceptionResponse;
 import com.workflow.api.exception.auth.EmailAlreadyExistsException;
 import com.workflow.api.exception.auth.InvalidCredentialsException;
 import com.workflow.api.exception.auth.UnauthorizedException;
-import com.workflow.api.exception.common.TagAlreadyExistsException;
-import com.workflow.api.exception.common.TagNotFoundException;
-import com.workflow.api.exception.common.TaskNotFoundException;
-import com.workflow.api.exception.common.UserNotFoundException;
+import com.workflow.api.exception.common.*;
+import com.workflow.api.exception.sprint.InvalidSprintDateException;
+import com.workflow.api.exception.sprint.SprintNotFoundException;
+import com.workflow.api.exception.tag.TagAlreadyExistsException;
+import com.workflow.api.exception.tag.TagNotFoundException;
+import com.workflow.api.exception.task.TaskNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,6 +90,42 @@ public class GlobalExceptionHandler {
                 .body(new ExceptionResponse(
                         HttpStatus.NOT_FOUND.value(),
                         HttpStatus.NOT_FOUND.name(),
+                        ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(SprintNotFoundException.class)
+    public  ResponseEntity<ExceptionResponse> handlerSprintNotFound(
+            SprintNotFoundException ex
+    ) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ExceptionResponse(
+                        HttpStatus.NOT_FOUND.value(),
+                        HttpStatus.NOT_FOUND.name(),
+                        ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(InvalidSprintDateException.class)
+    public  ResponseEntity<ExceptionResponse> handlerInvalidSprintDate(
+            InvalidSprintDateException ex
+    ) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ExceptionResponse(
+                        HttpStatus.BAD_REQUEST.value(),
+                        HttpStatus.BAD_REQUEST.name(),
+                        ex.getMessage()
+                ));
+    }
+
+    @ExceptionHandler(InvalidFieldException.class)
+    public  ResponseEntity<ExceptionResponse> handlerInvalidField(
+            InvalidFieldException ex
+    ) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ExceptionResponse(
+                        HttpStatus.BAD_REQUEST.value(),
+                        HttpStatus.BAD_REQUEST.name(),
                         ex.getMessage()
                 ));
     }

@@ -32,6 +32,10 @@ public class User {
     private List<Task> tasks;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "assignedTo")
+    private List<Task> assignedTasks;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "createdBy")
     private List<Tag> tags;
 }

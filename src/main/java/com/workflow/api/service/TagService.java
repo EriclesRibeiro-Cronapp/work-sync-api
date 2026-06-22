@@ -5,8 +5,8 @@ import com.workflow.api.dto.tag.TagResponse;
 import com.workflow.api.dto.tag.UpdateTagRequest;
 import com.workflow.api.entity.Tag;
 import com.workflow.api.entity.User;
-import com.workflow.api.exception.common.TagAlreadyExistsException;
-import com.workflow.api.exception.common.TagNotFoundException;
+import com.workflow.api.exception.tag.TagAlreadyExistsException;
+import com.workflow.api.exception.tag.TagNotFoundException;
 import com.workflow.api.exception.common.UserNotFoundException;
 import com.workflow.api.mapper.TagMapper;
 import com.workflow.api.repository.TagRepository;
@@ -14,7 +14,6 @@ import com.workflow.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 

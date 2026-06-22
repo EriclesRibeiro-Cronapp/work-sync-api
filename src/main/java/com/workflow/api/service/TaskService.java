@@ -7,10 +7,9 @@ import com.workflow.api.dto.task.UpdateTaskRequest;
 import com.workflow.api.entity.Tag;
 import com.workflow.api.entity.Task;
 import com.workflow.api.entity.User;
-import com.workflow.api.exception.common.TaskNotFoundException;
+import com.workflow.api.exception.task.TaskNotFoundException;
 import com.workflow.api.exception.common.UserNotFoundException;
 import com.workflow.api.mapper.PaginationMapper;
-import com.workflow.api.mapper.TagMapper;
 import com.workflow.api.mapper.TaskMapper;
 import com.workflow.api.repository.TagRepository;
 import com.workflow.api.repository.TaskRepository;
@@ -22,7 +21,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -84,7 +82,7 @@ public class TaskService {
             String userEmail,
             UpdateTaskRequest request
     ) {
-        User user = getUserByEmail(userEmail);
+        getUserByEmail(userEmail);
 
         // TODO: validar acesso à task através do projeto/organização
         Task task = taskRepository.findById(id)
@@ -95,14 +93,21 @@ public class TaskService {
         task.setTitle(request.title());
         task.setPriority(request.priority());
 
+        if (request.assignedId() != null) {
+            User assignedUser = userRepository.findById(request.assignedId())
+                    .orElseThrow(UserNotFoundException::new);
+
+            task.setAssignedTo(assignedUser);
+        } else {
+            task.setAssignedTo(null);
+        }
+
         if (request.tagIds() != null) {
             Set<Tag> tags = new HashSet<>(
                     tagRepository.findAllById(request.tagIds())
             );
             task.setTags(tags);
         }
-
-        Task savedTask = taskRepository.save(task);
 
         return taskMapper.toResponse(taskRepository.save(task));
     }

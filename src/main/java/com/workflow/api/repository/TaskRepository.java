@@ -10,5 +10,7 @@ import java.util.Optional;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
     Page<Task> findAllByCreatedBy(User user, Pageable pageable);
+    Page<Task> findAllByAssignedTo(User assignedTo, Pageable pageable);
     Optional<Task> findByCreatedByAndId(User user, Long id);
+    Page<Task> findAllBySprintId(Long id, Pageable pageable);
 }
