@@ -7,6 +7,7 @@ import com.workflow.api.dto.sprint.SprintResponse;
 import com.workflow.api.dto.sprint.UpdateSprintRequest;
 import com.workflow.api.dto.task.TaskResponse;
 import com.workflow.api.service.SprintService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -24,6 +25,7 @@ public class SprintController {
     private final SprintService sprintService;
 
     @GetMapping("/{id}/tasks")
+    @Operation(summary = "Buscar tarefas da sprint")
     public ResponseEntity<PaginationResponse<TaskResponse>> getTasksBySprintId(
             @PathVariable Long id,
             @RequestParam(defaultValue = "0") int pageNo,
@@ -39,12 +41,14 @@ public class SprintController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar detalhes da sprint")
     public ResponseEntity<SprintResponse> getSprintById(@PathVariable Long id) {
         SprintResponse response = sprintService.findById(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
+    @Operation(summary = "Listar sprints")
     public ResponseEntity<PaginationResponse<SprintResponse>> getSprints(
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize
@@ -57,6 +61,7 @@ public class SprintController {
     }
 
     @PostMapping
+    @Operation(summary = "Criar uma nova sprint")
     public ResponseEntity<SprintResponse> createSprint(
             @Valid @RequestBody CreateSprintRequest request
     ) {
@@ -65,6 +70,7 @@ public class SprintController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Editar sprint")
     public ResponseEntity<SprintResponse> updateSprint(
             @PathVariable Long id,
             @Valid @RequestBody UpdateSprintRequest request
@@ -74,6 +80,7 @@ public class SprintController {
     }
 
     @PatchMapping("/{id}")
+    @Operation(summary = "Editar detalhes da sprint")
     public ResponseEntity<SprintResponse> partialUpdateSprint(
             @PathVariable Long id,
             @Valid @RequestBody PatchSprintRequest request
